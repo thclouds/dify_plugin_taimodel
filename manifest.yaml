@@ -1,0 +1,46 @@
+version: 0.0.1
+type: plugin
+author: thclouds
+name: taimodel
+label:
+  en_US: taimodel
+  ja_JP: taimodel
+  zh_Hans: taimodel
+  pt_BR: taimodel
+description:
+  en_US: taidesk model
+  ja_JP: taidesk model
+  zh_Hans: taidesk model
+  pt_BR: taidesk model
+icon: icon.svg
+icon_dark: icon-dark.svg
+resource:
+  memory: 268435456
+  permission:
+    model:
+      enabled: true
+      llm: true
+      text_embedding: true
+      rerank: true
+      tts: true
+      speech2text: true
+      moderation: true
+    storage:
+      enabled: true
+      size: 1048576
+plugins:
+  models:
+    - provider/taimodel.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: 1.7.1
+created_at: 2025-08-18T17:07:38.43039+08:00
+privacy: PRIVACY.md
+verified: false

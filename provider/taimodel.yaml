@@ -1,0 +1,86 @@
+provider: taimodel
+label:
+  en_US: "Taimodel"
+description:
+  en_US: "Models provided by taimodel."
+  zh_Hans: "Taimodel 提供的模型。"
+icon_small:
+  en_US: "icon_s_en.svg"
+icon_large:
+  en_US: "icon_l_en.svg"
+background: "#E5E7EB"
+help:
+  title:
+    en_US: "Get your model Key from taidesk"
+    zh_Hans: "从 taidesk 获取模型"
+  url:
+    en_US: "https://__put_your_url_here__/account/api-keys"
+supported_model_types:
+  - llm
+  - text-embedding
+  - rerank
+configurate_methods:
+  - customizable-model
+model_credential_schema:
+  credential_form_schemas:
+    - label:
+        en_US: Base URL
+        zh_Hans: 基础 URL
+      placeholder:
+        en_US: Base url of TAIDESK, e.g. https://www.taidesk.com
+        zh_Hans: TAIDESK的基础URL，例如 https://www.taidesk.com
+      required: true
+      type: text-input
+      variable: base_url
+    - default: 'false'
+      label:
+        en_US: Vision support
+        zh_Hans: 是否支持 Vision
+      options:
+      - label:
+          en_US: 'Yes'
+          zh_Hans: 是
+        value: 'true'
+      - label:
+          en_US: 'No'
+          zh_Hans: 否
+        value: 'false'
+      required: false
+      show_on:
+      - value: llm
+        variable: __model_type
+      type: radio
+      variable: vision_support
+    - default: 'false'
+      label:
+        en_US: Function call support
+        zh_Hans: 是否支持函数调用
+      options:
+      - label:
+          en_US: 'Yes'
+          zh_Hans: 是
+        value: 'true'
+      - label:
+          en_US: 'No'
+          zh_Hans: 否
+        value: 'false'
+      required: false
+      show_on:
+      - value: llm
+        variable: __model_type
+      type: radio
+      variable: function_call_support
+  model:
+    label:
+      en_US: Model Name
+      zh_Hans: 模型名称
+    placeholder:
+      en_US: Enter your model name
+      zh_Hans: 输入模型名称
+extra:
+  python:
+    provider_source: provider/taimodel.py
+    model_sources:
+      - models/llm/llm.py
+      - models/text_embedding/text_embedding.py
+      - models/rerank/rerank.py
