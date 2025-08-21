@@ -1,9 +1,11 @@
 import logging
 import requests
 from collections.abc import Generator
+from contextlib import suppress
 from typing import Optional, Union
 
 from dify_plugin import LargeLanguageModel
+from dify_plugin.interfaces.model.openai_compatible.llm import OAICompatLargeLanguageModel
 from dify_plugin.entities import I18nObject
 from dify_plugin.errors.model import (
     CredentialsValidateFailedError,
@@ -50,7 +52,7 @@ from dify_plugin.errors.model import (
 logger = logging.getLogger(__name__)
 
 
-class TaimodelLargeLanguageModel(LargeLanguageModel):
+class TaimodelLargeLanguageModel(OAICompatLargeLanguageModel):
     """
     Model class for taimodel large language model.
     """
@@ -79,7 +81,47 @@ class TaimodelLargeLanguageModel(LargeLanguageModel):
         :param user: unique user id
         :return: full response or stream response chunk generator result
         """
-        pass
+        if model_parameters.get("response_format") == "json_schema":
+            model_parameters["response_format"] = "json_object"
+            # Use .get() instead of .pop() for safety
+            json_schema_str = model_parameters.get("json_schema")
+
+            if json_schema_str:
+                structured_output_prompt = (
+                    "Your response must be a JSON object that validates against the following JSON schema, and nothing else.\n"
+                    f"JSON Schema: ```json\n{json_schema_str}\n```"
+                )
+
+                existing_system_prompt = next(
+                    (p for p in prompt_messages if p.role == PromptMessageRole.SYSTEM), None
+                )
+                if existing_system_prompt:
+                    existing_system_prompt.content = (
+                        structured_output_prompt + "\n\n" + existing_system_prompt.content
+                    )
+                else:
+                    prompt_messages.insert(0, SystemPromptMessage(content=structured_output_prompt))
+
+        enable_thinking = model_parameters.pop("enable_thinking", None)
+        if enable_thinking is not None:
+            model_parameters["chat_template_kwargs"] = {"enable_thinking": bool(enable_thinking)}
+
+        # Remove thinking content from assistant messages for better performance.
+        with suppress(Exception):
+            self._drop_analyze_channel(prompt_messages)
+
+        print(f"prompt_messages: {prompt_messages}")
+        print(f"model_parameters: {model_parameters}")
+        print(f"tools: {tools}")
+        print(f"stop: {stop}")
+        print(f"stream: {stream}")
+        print(f"user: {user}")
+        print(f"credentials: {credentials}")
+        print(f"model: {model}")
+
+        return super()._invoke(
+            model, credentials, prompt_messages, model_parameters, tools, stop, stream, user
+        )
    
     def get_num_tokens(
         self,

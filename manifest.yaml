@@ -8,10 +8,10 @@ label:
   zh_Hans: taimodel
   pt_BR: taimodel
 description:
-  en_US: taidesk model
-  ja_JP: taidesk model
-  zh_Hans: taidesk model
-  pt_BR: taidesk model
+  en_US: TAIDESK model
+  ja_JP: TAIDESK model
+  zh_Hans: TAIDESK model
+  pt_BR: TAIDESK model
 icon: icon.svg
 icon_dark: icon-dark.svg
 resource:

@@ -27,11 +27,19 @@ model_credential_schema:
         en_US: Base URL
         zh_Hans: 基础 URL
       placeholder:
-        en_US: Base url of TAIDESK, e.g. https://www.taidesk.com
-        zh_Hans: TAIDESK的基础URL，例如 https://www.taidesk.com
+        en_US: Base url of TAIDESK, e.g. https://www.taidesk.com/model/chat/v1
+        zh_Hans: TAIDESK的基础URL，例如 https://www.taidesk.com/model/chat/v1
       required: true
       type: text-input
-      variable: base_url
+      variable: endpoint_url
+    - variable: api_key
+      label:
+        en_US: API Key
+      type: secret-input
+      required: false
+      placeholder:
+        zh_Hans: 在此输入您的 API Key
+        en_US: Enter your API Key
     - default: 'false'
       label:
         en_US: Vision support
