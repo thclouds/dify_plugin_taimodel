@@ -3,17 +3,13 @@ type: plugin
 author: thclouds
 name: taimodel
 label:
-  en_US: taimodel
-  ja_JP: taimodel
-  zh_Hans: taimodel
-  pt_BR: taimodel
+  en_US: TAIMODEL
+  zh_Hans: TAIMODEL
 description:
-  en_US: TAIDESK model
-  ja_JP: TAIDESK model
-  zh_Hans: TAIDESK model
-  pt_BR: TAIDESK model
-icon: icon.svg
-icon_dark: icon-dark.svg
+  en_US: 调用TAIDESK集成模型
+  zh_Hans: 调用TAIDESK集成模型
+icon: icon.png
+icon_dark: icon.png
 resource:
   memory: 268435456
   permission:
